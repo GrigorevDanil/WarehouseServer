@@ -1,0 +1,21 @@
+services:
+  db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+    volumes:
+      - mysql-data:/var/lib/mysql/
+    ports:
+      - 8081:3306
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1
+
+volumes:
+  mysql-data:
