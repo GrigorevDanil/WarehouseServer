@@ -2,7 +2,7 @@
 
 namespace WarehouseServer.Domain.Entities
 {
-    public class Distance
+    public class Distance : Entity<Guid>
     {
 
         private Distance()

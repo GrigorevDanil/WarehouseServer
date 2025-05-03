@@ -2,7 +2,7 @@
 
 namespace WarehouseServer.Domain.Entities
 {
-    public class ProductResource
+    public class ProductResource : Entity<Guid>
     {
 
 

@@ -2,10 +2,8 @@
 
 namespace WarehouseServer.Domain.Entities
 {
-    public class ProductWarehouse
+    public class ProductWarehouse : Entity<Guid>
     {
-
-
         private ProductWarehouse()
         {
 
