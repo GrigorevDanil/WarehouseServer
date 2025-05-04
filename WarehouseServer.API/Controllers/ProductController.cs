@@ -74,7 +74,7 @@ namespace WarehouseServer.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductResponse>> GetProductById(Guid id)
         {
-            var result = await productService.GetProductById(id);
+            var result = await productService.GetProductByIdWithResources(id);
 
             if (result.IsFailure)
                 return NotFound(result.Error);
