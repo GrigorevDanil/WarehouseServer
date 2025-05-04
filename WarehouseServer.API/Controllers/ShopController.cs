@@ -22,6 +22,9 @@ namespace WarehouseServer.API.Controllers
             this.unitOfWork = unitOfWork;
         }
 
+        /// <summary>
+        /// Получает список всех магазинов без деталей
+        /// </summary>
         [HttpGet("List")]
         public async Task<ActionResult<ShopResponse[]>> GetShops()
         {
@@ -37,6 +40,9 @@ namespace WarehouseServer.API.Controllers
 
         }
 
+        /// <summary>
+        /// Получает список всех магазинов с дистанциями
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<ShopResponse[]>> GetShopsWithDistances()
         {
@@ -60,6 +66,10 @@ namespace WarehouseServer.API.Controllers
 
         }
 
+        /// <summary>
+        /// Получает магазин по идентификатору
+        /// </summary>
+        /// <param name="id">Идентификатор магазина</param>
         [HttpGet("{id}")]
         public async Task<ActionResult<ShopResponse>> GetShopById(Guid id)
         {
@@ -81,6 +91,9 @@ namespace WarehouseServer.API.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Добавляет магазин
+        /// </summary>
         [HttpPost]
         public async Task<ActionResult<Guid>> AddShop([FromBody] ShopRequest request)
         {
@@ -98,6 +111,10 @@ namespace WarehouseServer.API.Controllers
             return Ok(shopId);
         }
 
+        /// <summary>
+        /// Обновляет магазин по идентификатору
+        /// </summary>
+        /// <param name="id">Идентификатор магазина</param>
         [HttpPut("{id:guid}")]
         public async Task<ActionResult<Guid>> UpdateShop(Guid id, [FromBody] ShopRequest request)
         {
@@ -118,6 +135,10 @@ namespace WarehouseServer.API.Controllers
 
         }
 
+        /// <summary>
+        /// Удаляет магазин по идентификатору
+        /// </summary>
+        /// <param name="id">Идентификатор магазина</param>
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult<Guid>> DeleteShop(Guid id)
         {
@@ -136,6 +157,10 @@ namespace WarehouseServer.API.Controllers
 
         }
 
+        /// <summary>
+        /// Добавляет дистанцию к магазину
+        /// </summary>
+        /// <param name="id">Идентификатор магазина</param>
         [HttpPost("{id:guid}/Distances")]
         public async Task<ActionResult<Guid>> AddDistanceToShop(Guid id, [FromBody] DistanceRequest request)
         {
@@ -173,6 +198,11 @@ namespace WarehouseServer.API.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Обновляет длину дистанции между магазином и складом
+        /// </summary>
+        /// <param name="id">Идентификатор магазина</param>
+        /// <param name="warehouseId">Идентификатор склада</param>
         [HttpPut("{id:guid}/Distances/{warehouseId:guid}")]
         public async Task<ActionResult<Guid>> UpdateDistanceToShop(Guid id, Guid warehouseId, [FromBody] UpdateDistanceRequest request)
         {
@@ -202,6 +232,11 @@ namespace WarehouseServer.API.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Удаляет дистанцию между магазином и складом
+        /// </summary>
+        /// <param name="id">Идентификатор магазин</param>
+        /// <param name="warehouseId">Идентификатор склада</param>
         [HttpDelete("{id:guid}/Distances/{warehouseId:guid}")]
         public async Task<ActionResult<Guid>> DeleteDistanceToShop(Guid id, Guid warehouseId)
         {

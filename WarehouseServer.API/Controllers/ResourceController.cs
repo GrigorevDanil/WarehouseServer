@@ -6,18 +6,23 @@ using WarehouseServer.Domain.Interfaces.Services;
 
 namespace WarehouseServer.API.Controllers
 {
+
     [ApiController]
     [Route("[controller]")]
     public class ResourceController : ControllerBase
     {
         private readonly IResourceService resourceService;
         private readonly IUnitOfWork unitOfWork;
+
         public ResourceController(IResourceService resourceService, IUnitOfWork unitOfWork)
         {
             this.resourceService = resourceService;
             this.unitOfWork = unitOfWork;
         }
 
+        /// <summary>
+        /// Получает список всех ресурсов
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<ResourceResponse[]>> GetResources()
         {
@@ -30,9 +35,12 @@ namespace WarehouseServer.API.Controllers
             var response = resources.Select(res => new ResourceResponse(res.Id, res.Title, res.Unit));
 
             return Ok(response);
-
         }
 
+        /// <summary>
+        /// Получает ресурс по идентификатору
+        /// </summary>
+        /// <param name="id">Идентификатор ресурса</param>
         [HttpGet("{id}")]
         public async Task<ActionResult<ResourceResponse>> GetResourceById(Guid id)
         {
@@ -47,6 +55,9 @@ namespace WarehouseServer.API.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Добавляет ресурс
+        /// </summary>
         [HttpPost]
         public async Task<ActionResult<Guid>> AddResource([FromBody] ResourceRequest request)
         {
@@ -64,6 +75,10 @@ namespace WarehouseServer.API.Controllers
             return Ok(resourceId);
         }
 
+        /// <summary>
+        /// Обновляет ресурс по идентификатору
+        /// </summary>
+        /// <param name="id">Идентификатор ресурса</param>
         [HttpPut("{id:guid}")]
         public async Task<ActionResult<Guid>> UpdateResource(Guid id, [FromBody] ResourceRequest request)
         {
@@ -81,9 +96,12 @@ namespace WarehouseServer.API.Controllers
             await unitOfWork.SaveChanges();
 
             return Ok(resourceId);
-
         }
 
+        /// <summary>
+        /// Удаляет ресурс по идентификатору
+        /// </summary>
+        /// <param name="id">Идентификатор ресурса</param>
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult<Guid>> DeleteResource(Guid id)
         {
@@ -99,7 +117,6 @@ namespace WarehouseServer.API.Controllers
             await unitOfWork.SaveChanges();
 
             return Ok(deletedResourceId);
-
         }
     }
 }

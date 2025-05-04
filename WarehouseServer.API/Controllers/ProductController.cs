@@ -22,6 +22,9 @@ namespace WarehouseServer.API.Controllers
             this.unitOfWork = unitOfWork;
         }
 
+        /// <summary>
+        /// Получает список всех товаров без деталей
+        /// </summary>
         [HttpGet("List")]
         public async Task<ActionResult<ProductResponse[]>> GetProducts()
         {
@@ -37,6 +40,9 @@ namespace WarehouseServer.API.Controllers
 
         }
 
+        /// <summary>
+        /// Получает список всех товаров с ресурсами
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<ProductResponse[]>> GetProductsWithResources()
         {
@@ -61,6 +67,10 @@ namespace WarehouseServer.API.Controllers
 
         }
 
+        /// <summary>
+        /// Получает товар по идентификатору
+        /// </summary>
+        /// <param name="id">Идентификатор товара</param>
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductResponse>> GetProductById(Guid id)
         {
@@ -83,6 +93,9 @@ namespace WarehouseServer.API.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Добавляет товар
+        /// </summary>
         [HttpPost]
         public async Task<ActionResult<Guid>> AddProduct([FromBody] ProductRequest request)
         {
@@ -100,6 +113,10 @@ namespace WarehouseServer.API.Controllers
             return Ok(productId);
         }
 
+        /// <summary>
+        /// Обновляет товар по идентификатору
+        /// </summary>
+        /// <param name="id">Идентификатор товара</param>
         [HttpPut("{id:guid}")]
         public async Task<ActionResult<Guid>> UpdateProduct(Guid id, [FromBody] ProductRequest request)
         {
@@ -120,6 +137,10 @@ namespace WarehouseServer.API.Controllers
 
         }
 
+        /// <summary>
+        /// Удаляет товар по идентификатору
+        /// </summary>
+        /// <param name="id">Идентификатор товара</param>
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult<Guid>> DeleteProduct(Guid id)
         {
@@ -138,6 +159,10 @@ namespace WarehouseServer.API.Controllers
 
         }
 
+        /// <summary>
+        /// Добавляет ресурс к товару
+        /// </summary>
+        /// <param name="id">Идентификатор товара</param>
         [HttpPost("{id:guid}/Resources")]
         public async Task<ActionResult<Guid>> AddResourceToProduct(Guid id, [FromBody] ProductResourceRequest request)
         {
@@ -174,6 +199,11 @@ namespace WarehouseServer.API.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Обновляет количество ресурса в товаре
+        /// </summary>
+        /// <param name="id">Идентификатор товара</param>
+        /// <param name="resourceId">Идентификатор ресурса</param>
         [HttpPut("{id:guid}/Resources/{resourceId:guid}")]
         public async Task<ActionResult<Guid>> UpdateResourceToProduct(Guid id, Guid resourceId, [FromBody] UpdateProductResourceRequest request)
         {
@@ -202,6 +232,11 @@ namespace WarehouseServer.API.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Удаляет связь между товаром и ресурсом
+        /// </summary>
+        /// <param name="id">Идентификатор товара</param>
+        /// <param name="resourceId">Идентификатор ресурса</param>
         [HttpDelete("{id:guid}/Resources/{resourceId:guid}")]
         public async Task<ActionResult<Guid>> DeleteResourceToProduct(Guid id, Guid resourceId)
         {

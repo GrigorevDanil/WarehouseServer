@@ -22,6 +22,9 @@ namespace WarehouseServer.API.Controllers
             this.unitOfWork = unitOfWork;
         }
 
+        /// <summary>
+        /// Получает список всех складов без деталей
+        /// </summary>
         [HttpGet("List")]
         public async Task<ActionResult<WarehouseResponse[]>> GetWarehouses()
         {
@@ -37,6 +40,9 @@ namespace WarehouseServer.API.Controllers
 
         }
 
+        /// <summary>
+        /// Получает список всех складов с товарами
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<WarehouseResponse[]>> GetWarehousesWithProducts()
         {
@@ -60,6 +66,10 @@ namespace WarehouseServer.API.Controllers
 
         }
 
+        /// <summary>
+        /// Получает склад по идентификатору
+        /// </summary>
+        /// <param name="id">Идентификатор склада</param>
         [HttpGet("{id}")]
         public async Task<ActionResult<WarehouseResponse>> GetWarehouseById(Guid id)
         {
@@ -82,6 +92,9 @@ namespace WarehouseServer.API.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Добавляет склад
+        /// </summary>
         [HttpPost]
         public async Task<ActionResult<Guid>> AddWarehouse([FromBody] WarehouseRequest request)
         {
@@ -99,6 +112,10 @@ namespace WarehouseServer.API.Controllers
             return Ok(warehouseId);
         }
 
+        /// <summary>
+        /// Обновляет склад по идентификатору
+        /// </summary>
+        /// <param name="id">Идентификатор склада</param>
         [HttpPut("{id:guid}")]
         public async Task<ActionResult<Guid>> UpdateWarehouse(Guid id, [FromBody] WarehouseRequest request)
         {
@@ -119,6 +136,10 @@ namespace WarehouseServer.API.Controllers
 
         }
 
+        /// <summary>
+        /// Удаляет склад по идентификатору
+        /// </summary>
+        /// <param name="id">Идентификатор склада</param>
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult<Guid>> DeleteWarehouse(Guid id)
         {
@@ -137,6 +158,10 @@ namespace WarehouseServer.API.Controllers
 
         }
 
+        /// <summary>
+        /// Добавляет товар на склад
+        /// </summary>
+        /// <param name="id">Идентификатор склада</param>
         [HttpPost("{id:guid}/Products")]
         public async Task<ActionResult<Guid>> AddProductToWarehouse(Guid id, [FromBody] ProductWarehouseRequest request)
         {
@@ -174,6 +199,11 @@ namespace WarehouseServer.API.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Обновляет количество товара на складе
+        /// </summary>
+        /// <param name="id">Идентификатор склада</param>
+        /// <param name="productId">Идентификатор товара</param>
         [HttpPut("{id:guid}/Products/{productId:guid}")]
         public async Task<ActionResult<Guid>> UpdateProductToWarehouse(Guid id, Guid productId, [FromBody] UpdateProductWarehouseRequest request)
         {
@@ -203,6 +233,11 @@ namespace WarehouseServer.API.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Удаляет связь между товаром и складом
+        /// </summary>
+        /// <param name="id">Идентификатор склада</param>
+        /// <param name="productId">Идентификатор товара</param>
         [HttpDelete("{id:guid}/Products/{productId:guid}")]
         public async Task<ActionResult<Guid>> DeleteProductToWarehouse(Guid id, Guid productId)
         {
