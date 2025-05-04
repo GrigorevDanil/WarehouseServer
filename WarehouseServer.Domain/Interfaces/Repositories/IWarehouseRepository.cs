@@ -12,5 +12,6 @@ namespace WarehouseServer.Domain.Interfaces.Repositories
         Task<Result<Warehouse, string>> GetByIdWithProducts(Guid id);
         Task<Result<List<Warehouse>, string>> Get();
         Task<Result<List<Warehouse>, string>> GetWithProducts();
+        Task<Result<List<Warehouse>, string>> GetByIdsWithProducts(Guid[] ids);
     }
 }

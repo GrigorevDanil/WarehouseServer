@@ -21,6 +21,9 @@ namespace WarehouseServer.Application.Services.Repositories
         public Task<Result<Product, string>> GetProductByIdWithResources(Guid id) => repository.GetByIdWithResources(id);
 
         public Task<Result<List<Product>, string>> GetProducts() => repository.Get();
+
+        public Task<Result<List<Product>, string>> GetProductsByIds(Guid[] ids) => repository.GetByIds(ids);
+
         public Task<Result<List<Product>, string>> GetProductsWithResources() => repository.GetWithResources();
         public Guid SaveProduct(Product product) => repository.Save(product);
     }

@@ -2,6 +2,7 @@
 using WarehouseServer.Application.Interfaces;
 using WarehouseServer.Domain.Interfaces.Repositories;
 using WarehouseServer.Infrastructure.Repositories;
+using WarehouseServer.Infrastructure.Services;
 
 namespace WarehouseServer.Infrastructure
 {
@@ -30,6 +31,7 @@ namespace WarehouseServer.Infrastructure
         private static IServiceCollection AddServices(this IServiceCollection services)
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ITransportMethodService, TransportMethodService>();
 
             return services;
         }

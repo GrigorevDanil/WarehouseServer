@@ -13,5 +13,6 @@ namespace WarehouseServer.Domain.Interfaces.Services
         Task<Result<Warehouse, string>> GetWarehouseByIdWithProducts(Guid id);
         Task<Result<List<Warehouse>, string>> GetWarehouses();
         Task<Result<List<Warehouse>, string>> GetWarehousesWithProducts();
+        Task<Result<List<Warehouse>, string>> GetWarehousesByIdsWithProducts(Guid[] ids);
     }
 }

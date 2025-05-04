@@ -46,6 +46,16 @@ namespace WarehouseServer.Infrastructure.Repositories
             return shop;
         }
 
+        public async Task<Result<List<Shop>, string>> GetByIdsWithDistances(Guid[] ids)
+        {
+            var shops = await dbContext.Shops.Include(e => e.Distances).ThenInclude(d => d.Warehouse).Where(s => ids.Contains(s.Id)).ToListAsync();
+
+            if (shops is null || shops.Count == 0)
+                return Result.Failure<List<Shop>, string>("Магазины не найдены");
+
+            return shops;
+        }
+
         public async Task<Result<Shop, string>> GetByIdWithDistances(Guid id)
         {
             var shop = await dbContext.Shops.Include(e => e.Distances).ThenInclude(d => d.Warehouse).FirstOrDefaultAsync(s => s.Id == id);

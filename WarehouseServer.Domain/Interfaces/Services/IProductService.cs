@@ -11,6 +11,7 @@ namespace WarehouseServer.Domain.Interfaces.Services
         Task<Result<Product, string>> GetProductByIdWithResources(Guid id);
         Task<Result<List<Product>, string>> GetProducts();
         Task<Result<List<Product>, string>> GetProductsWithResources();
+        Task<Result<List<Product>, string>> GetProductsByIds(Guid[] ids);
         Guid SaveProduct(Product product);
     }
 }

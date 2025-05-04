@@ -1,6 +1,6 @@
 using WarehouseServer.Application.Interfaces;
 
-namespace WarehouseServer.Infrastructure;
+namespace WarehouseServer.Infrastructure.Services;
 
 public class UnitOfWork : IUnitOfWork
 {

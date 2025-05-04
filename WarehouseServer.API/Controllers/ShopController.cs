@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WarehouseServer.API.Contracts.Distance;
 using WarehouseServer.API.Contracts.Shop;
+using WarehouseServer.API.Contracts.TransportMethod;
 using WarehouseServer.API.Contracts.Warehouse;
 using WarehouseServer.Application.Interfaces;
 using WarehouseServer.Domain.Entities;
@@ -14,12 +15,16 @@ namespace WarehouseServer.API.Controllers
     {
         private readonly IShopService shopService;
         private readonly IWarehouseService warehouseService;
+        private readonly IProductService productService;
         private readonly IUnitOfWork unitOfWork;
-        public ShopController(IShopService shopService, IWarehouseService warehouseService, IUnitOfWork unitOfWork)
+        private readonly ITransportMethodService transportMethodService;
+        public ShopController(IShopService shopService, IWarehouseService warehouseService, IProductService productService, IUnitOfWork unitOfWork, ITransportMethodService transportMethodService)
         {
             this.shopService = shopService;
             this.warehouseService = warehouseService;
+            this.productService = productService;
             this.unitOfWork = unitOfWork;
+            this.transportMethodService = transportMethodService;
         }
 
         /// <summary>
@@ -264,6 +269,71 @@ namespace WarehouseServer.API.Controllers
             await unitOfWork.SaveChanges();
 
             return Ok();
+        }
+
+        /// <summary>
+        /// Расчет оптимального плана поставок (Транспортная задача)
+        /// </summary>
+        [HttpPost("TransportMethod")]
+        public async Task<ActionResult<double>> CalculationDelivery([FromBody] TransportMethodRequest request)
+        {
+            if (request.Warehouses.Length < 2)
+                return BadRequest("Количество складов должно быть больше 2-х");
+
+            if (request.Shops.Length != 2)
+                return BadRequest("Количество магазинов должно быть больше 2-х");
+
+            var shopsResult = await shopService.GetShopsByIdsWithDistances(request.Shops);
+            if (shopsResult.IsFailure)
+                return NotFound(shopsResult.Error);
+            var shops = shopsResult.Value;
+
+            var warehousesResult = await warehouseService.GetWarehousesByIdsWithProducts(request.Warehouses);
+            if (warehousesResult.IsFailure)
+                return NotFound(warehousesResult.Error);
+            var warehouses = warehousesResult.Value;
+
+            var productsResult = await productService.GetProductsByIds(request.Products);
+            if (productsResult.IsFailure)
+                return NotFound(productsResult.Error);
+            var products = productsResult.Value.ToDictionary(p => p.Id);
+
+            double[] demands = request.Demands;
+            double[] suppliers = new double[request.Warehouses.Length];
+
+            for (int i = 0; i < request.Warehouses.Length; i++)
+            {
+                var warehouse = warehouses.FirstOrDefault(w => w.Id == request.Warehouses[i]);
+                var productWarehouse = warehouse?.ProductWarehouses.FirstOrDefault(pw => pw.ProductId == request.Products[i]);
+                suppliers[i] = productWarehouse?.Quantity ?? 0;
+            }
+
+            // Матрица стоимостей (цена продукта * расстояние)
+            double[,] costMatrix = new double[request.Demands.Length, request.Warehouses.Length];
+
+            for (int shopIdx = 0; shopIdx < shops.Count; shopIdx++)
+            {
+                var shop = shops[shopIdx];
+
+                for (int warehouseIdx = 0; warehouseIdx < warehouses.Count; warehouseIdx++)
+                {
+                    var warehouse = warehouses[warehouseIdx];
+                    var distance = shop.Distances.FirstOrDefault(d => d.WarehouseId == warehouse.Id);
+
+                    if (distance != null && products.TryGetValue(request.Products[warehouseIdx], out var product))
+                    {
+                        costMatrix[shopIdx, warehouseIdx] = product.Cost * distance.Length;
+                    }
+                    else
+                    {
+                        return BadRequest("Между складом и магазином не указана длина");
+                    }
+                }
+            }
+
+            double totalCost = transportMethodService.Calculate(costMatrix, suppliers, demands);
+
+            return Ok(totalCost);
         }
     }
 }

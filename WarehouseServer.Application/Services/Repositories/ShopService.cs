@@ -24,6 +24,8 @@ namespace WarehouseServer.Application.Services.Repositories
 
         public Task<Result<List<Shop>, string>> GetShops() => repository.Get();
 
+        public Task<Result<List<Shop>, string>> GetShopsByIdsWithDistances(Guid[] ids) => repository.GetByIdsWithDistances(ids);
+
         public Task<Result<List<Shop>, string>> GetShopsWithDistances() => repository.GetWithDistances();
 
         public Guid SaveShop(Shop shop) => repository.Save(shop);

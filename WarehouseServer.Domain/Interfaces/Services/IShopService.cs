@@ -13,5 +13,6 @@ namespace WarehouseServer.Domain.Interfaces.Services
         Task<Result<Shop, string>> GetShopByIdWithDistances(Guid id);
         Task<Result<List<Shop>, string>> GetShops();
         Task<Result<List<Shop>, string>> GetShopsWithDistances();
+        Task<Result<List<Shop>, string>> GetShopsByIdsWithDistances(Guid[] ids);
     }
 }

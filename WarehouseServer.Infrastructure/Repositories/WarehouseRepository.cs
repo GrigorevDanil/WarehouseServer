@@ -46,6 +46,16 @@ namespace WarehouseServer.Infrastructure.Repositories
             return warehouse;
         }
 
+        public async Task<Result<List<Warehouse>, string>> GetByIdsWithProducts(Guid[] ids)
+        {
+            var warehouses = await dbContext.Warehouses.Include(e => e.ProductWarehouses).ThenInclude(pw => pw.Product).Where(w => ids.Contains(w.Id)).ToListAsync();
+
+            if (warehouses is null || warehouses.Count == 0)
+                return Result.Failure<List<Warehouse>, string>("Склады не найдены");
+
+            return warehouses;
+        }
+
         public async Task<Result<Warehouse, string>> GetByIdWithProducts(Guid id)
         {
             var warehouse = await dbContext.Warehouses.Include(e => e.ProductWarehouses).ThenInclude(pw => pw.Product).FirstOrDefaultAsync(w => w.Id == id);
