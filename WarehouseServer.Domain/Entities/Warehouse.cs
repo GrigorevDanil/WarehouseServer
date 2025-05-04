@@ -31,5 +31,20 @@ namespace WarehouseServer.Domain.Entities
         public string Title { get; private set; } = string.Empty;
         public IReadOnlyList<ProductWarehouse> ProductWarehouses => _productWarehouses;
         public IReadOnlyList<Distance> Distances => _distances;
+
+        public void UpdateInfo(string title)
+        {
+            Title = title;
+        }
+
+        public void AddProductWarehouse(ProductWarehouse productWarehouse)
+        {
+            _productWarehouses.Add(productWarehouse);
+        }
+
+        public void DeleteProductWarehouse(ProductWarehouse productWarehouse)
+        {
+            _productWarehouses.Remove(productWarehouse);
+        }
     }
 }

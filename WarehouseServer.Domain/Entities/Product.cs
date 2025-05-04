@@ -33,5 +33,20 @@ namespace WarehouseServer.Domain.Entities
         public IReadOnlyList<ProductResource> ProductResources => _productResources;
         public IReadOnlyList<ProductWarehouse> ProductWarehouses => _productWarehouses;
 
+        public void UpdateInfo(string title, float cost)
+        {
+            Title = title;
+            Cost = cost;
+        }
+
+        public void AddProductResource(ProductResource pr)
+        {
+            _productResources.Add(pr);
+        }
+
+        public void DeleteProductResource(ProductResource pr)
+        {
+            _productResources.Remove(pr);
+        }
     }
 }

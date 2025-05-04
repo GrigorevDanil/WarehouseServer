@@ -2,7 +2,7 @@
 
 namespace WarehouseServer.Domain.Entities
 {
-    public class ProductWarehouse : Entity<Guid>
+    public class ProductWarehouse
     {
         private ProductWarehouse()
         {
@@ -29,5 +29,10 @@ namespace WarehouseServer.Domain.Entities
         public Guid WarehouseId { get; }
         public virtual Warehouse? Warehouse { get; }
         public int Quantity { get; private set; }
+
+        public void UpdateInfo(int quantity)
+        {
+            Quantity = quantity;
+        }
     }
 }

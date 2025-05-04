@@ -24,22 +24,16 @@ namespace WarehouseServer.Infrastructure.Migrations
 
             modelBuilder.Entity("WarehouseServer.Domain.Entities.Distance", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<int>("Length")
-                        .HasColumnType("int");
-
                     b.Property<Guid>("ShopId")
                         .HasColumnType("char(36)");
 
                     b.Property<Guid>("WarehouseId")
                         .HasColumnType("char(36)");
 
-                    b.HasKey("Id");
+                    b.Property<int>("Length")
+                        .HasColumnType("int");
 
-                    b.HasIndex("ShopId");
+                    b.HasKey("ShopId", "WarehouseId");
 
                     b.HasIndex("WarehouseId");
 
@@ -67,22 +61,16 @@ namespace WarehouseServer.Infrastructure.Migrations
 
             modelBuilder.Entity("WarehouseServer.Domain.Entities.ProductResource", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<Guid>("ProductId")
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("ProductId")
+                    b.Property<Guid>("ResourceId")
                         .HasColumnType("char(36)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("ResourceId")
-                        .HasColumnType("char(36)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
+                    b.HasKey("ProductId", "ResourceId");
 
                     b.HasIndex("ResourceId");
 
@@ -91,22 +79,16 @@ namespace WarehouseServer.Infrastructure.Migrations
 
             modelBuilder.Entity("WarehouseServer.Domain.Entities.ProductWarehouse", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<Guid>("ProductId")
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("ProductId")
+                    b.Property<Guid>("WarehouseId")
                         .HasColumnType("char(36)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("WarehouseId")
-                        .HasColumnType("char(36)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
+                    b.HasKey("ProductId", "WarehouseId");
 
                     b.HasIndex("WarehouseId");
 

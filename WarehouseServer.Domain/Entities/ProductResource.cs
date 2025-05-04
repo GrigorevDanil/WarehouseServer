@@ -2,7 +2,7 @@
 
 namespace WarehouseServer.Domain.Entities
 {
-    public class ProductResource : Entity<Guid>
+    public class ProductResource
     {
 
 
@@ -31,6 +31,11 @@ namespace WarehouseServer.Domain.Entities
         public Guid ResourceId { get; private set; }
         public virtual Resource? Resource { get; }
         public int Quantity { get; private set; }
+
+        public void UpdateInfo(int quantity)
+        {
+            Quantity = quantity;
+        }
 
     }
 }

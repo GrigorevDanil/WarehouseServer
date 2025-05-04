@@ -32,5 +32,11 @@ namespace WarehouseServer.Domain.Entities
         public string Unit { get; private set; } = string.Empty;
         public IReadOnlyList<ProductResource> ProductResources => _productResources;
 
+        public void UpdateInfo(string title, string unit)
+        {
+            Title = title;
+            Unit = unit;
+        }
+
     }
 }

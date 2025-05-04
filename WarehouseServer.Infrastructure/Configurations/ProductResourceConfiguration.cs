@@ -8,7 +8,7 @@ namespace WarehouseServer.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<ProductResource> builder)
         {
-            builder.HasKey(e => e.Id);
+            builder.HasKey(e => new { e.ProductId, e.ResourceId });
 
             builder.Property(e => e.Quantity)
                 .IsRequired();

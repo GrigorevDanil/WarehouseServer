@@ -77,14 +77,13 @@ namespace WarehouseServer.Infrastructure.Migrations
                 name: "ProductResources",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     ProductId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     ResourceId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Quantity = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductResources", x => x.Id);
+                    table.PrimaryKey("PK_ProductResources", x => new { x.ProductId, x.ResourceId });
                     table.ForeignKey(
                         name: "FK_ProductResources_Products_ProductId",
                         column: x => x.ProductId,
@@ -104,14 +103,13 @@ namespace WarehouseServer.Infrastructure.Migrations
                 name: "Distances",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     ShopId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     WarehouseId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Length = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Distances", x => x.Id);
+                    table.PrimaryKey("PK_Distances", x => new { x.ShopId, x.WarehouseId });
                     table.ForeignKey(
                         name: "FK_Distances_Shops_ShopId",
                         column: x => x.ShopId,
@@ -131,14 +129,13 @@ namespace WarehouseServer.Infrastructure.Migrations
                 name: "ProductWarehouses",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     ProductId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     WarehouseId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Quantity = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductWarehouses", x => x.Id);
+                    table.PrimaryKey("PK_ProductWarehouses", x => new { x.ProductId, x.WarehouseId });
                     table.ForeignKey(
                         name: "FK_ProductWarehouses_Products_ProductId",
                         column: x => x.ProductId,
@@ -155,29 +152,14 @@ namespace WarehouseServer.Infrastructure.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Distances_ShopId",
-                table: "Distances",
-                column: "ShopId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Distances_WarehouseId",
                 table: "Distances",
                 column: "WarehouseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductResources_ProductId",
-                table: "ProductResources",
-                column: "ProductId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ProductResources_ResourceId",
                 table: "ProductResources",
                 column: "ResourceId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductWarehouses_ProductId",
-                table: "ProductWarehouses",
-                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductWarehouses_WarehouseId",

@@ -2,7 +2,7 @@
 
 namespace WarehouseServer.Domain.Entities
 {
-    public class Distance : Entity<Guid>
+    public class Distance
     {
 
         private Distance()
@@ -28,5 +28,9 @@ namespace WarehouseServer.Domain.Entities
         public virtual Warehouse? Warehouse { get; }
         public int Length { get; private set; }
 
+        public void UpdateInfo(int length)
+        {
+            Length = length;
+        }
     }
 }

@@ -28,5 +28,20 @@ namespace WarehouseServer.Domain.Entities
 
         public string Title { get; private set; } = string.Empty;
         public IReadOnlyList<Distance> Distances => _distances;
+
+        public void UpdateInfo(string title)
+        {
+            Title = title;
+        }
+
+        public void AddDistance(Distance distance)
+        {
+            _distances.Add(distance);
+        }
+
+        public void DeleteDistance(Distance distance)
+        {
+            _distances.Remove(distance);
+        }
     }
 }

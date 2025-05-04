@@ -8,7 +8,7 @@ namespace WarehouseServer.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<Distance> builder)
         {
-            builder.HasKey(e => e.Id);
+            builder.HasKey(e => new { e.ShopId, e.WarehouseId });
 
             builder.HasOne(e => e.Shop)
                 .WithMany(s => s.Distances)

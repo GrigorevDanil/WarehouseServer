@@ -1,3 +1,4 @@
+using WarehouseServer.Application;
 using WarehouseServer.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +11,8 @@ builder.Services.AddSwaggerGen();
 
 
 builder.Services
-    .AddInfrastructure(configuration);
+    .AddInfrastructure()
+    .AddApplication();
 
 
 var app = builder.Build();
